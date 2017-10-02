@@ -6,6 +6,7 @@ const verify = token => jwt.verify(token, process.env.JWT_SECRET)
 
 module.exports = {
     getAllToDos: (req, res) => {
+        console.log(req.headers.token)
         let user = verify(req.headers.token)
         Todo.find({userId: user._id})
         .then(result => res.send(result))
@@ -14,6 +15,7 @@ module.exports = {
 
     addToDos: (req, res) => {
         let user = verify(req.headers.token)
+        console.log(user)
         Todo.create({
             action: req.body.action,
             title: req.body.title,

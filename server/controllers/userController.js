@@ -72,8 +72,9 @@ module.exports = {
     },
 
     loginUser: function(req,res) {
-        User.findOne({facebookId: req.headers.fbid})
+        User.find({facebookId: req.headers.fbid})
         .then(user => {
+            
             if (user == false) {
                 FB.api('/me', response => {
                     User.create({
@@ -93,13 +94,15 @@ module.exports = {
             } else {
                 console.log('this is user ' + user)
                 const token = jwt.sign({
-                    _id: user._id,
-                    name: user.name
+                    _id: user[0]._id,
+                    name: user[0].name
                 }, process.env.JWT_SECRET)
-                res.send(token)
+                // res.send(token)
+                res.send({token: token, name: user[0].name, userid: user[0]._id})
             }
         })
         .catch(err => res.send(err))
+        
     },
 
     // loginUser: function(req,res) {
