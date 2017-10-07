@@ -19,7 +19,7 @@
                 </div>
               </form>
             </div>
-             <ul v-for="(todos, index) in todoslist" class="left collection" style="padding-right:30px; color:black;">
+             <ul v-for="(todos, index) in todoslist" class="left collection" :key="todos._id" style="padding-right:30px; color:black;">
                 <li class="collection-item">{{ todos.action }}</li>
                 <li class="collection-item">{{ todos.title }}</li>
                 <li class="collection-item">{{ todos.date }}</li>
