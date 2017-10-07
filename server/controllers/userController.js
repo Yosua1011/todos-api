@@ -3,7 +3,7 @@ const User = require('../models/User')
 const ObjectId = require('mongodb').ObjectId
 const jwt = require('jsonwebtoken')
 require('dotenv').config()
-const env = process.env.NODE_ENV || "development"
+// const env = process.env.NODE_ENV || "development"
 var bcrypt = require('bcryptjs')
 
 module.exports = {
@@ -13,7 +13,7 @@ module.exports = {
         .catch(err => res.send(err))
       },
 
-    findSpecificUser: function(req, res) { 
+    findSpecificUser: function(req, res) {
         User.findById(req.params.id)
         .then(data_user => {res.send(data_user)})
         .catch(err => res.send(err))
@@ -72,9 +72,9 @@ module.exports = {
     },
 
     loginUser: function(req,res) {
-        User.find({facebookId: req.headers.fbid})
+        User.findOne({facebookId: req.headers.fbid})
         .then(user => {
-            
+
             if (user == false) {
                 FB.api('/me', response => {
                     User.create({
@@ -94,15 +94,15 @@ module.exports = {
             } else {
                 console.log('this is user ' + user)
                 const token = jwt.sign({
-                    _id: user[0]._id,
-                    name: user[0].name
+                    _id: user._id,
+                    name: user.name
                 }, process.env.JWT_SECRET)
                 // res.send(token)
-                res.send({token: token, name: user[0].name, userid: user[0]._id})
+                res.send({token: token, name: user.name, userid: user._id})
             }
         })
         .catch(err => res.send(err))
-        
+
     },
 
     // loginUser: function(req,res) {

@@ -4,7 +4,9 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import FBSignInButton from 'vue-facebook-signin-button'
+import VueSweetalert2 from 'vue-sweetalert2'
 
+Vue.use(VueSweetalert2)
 Vue.use(FBSignInButton)
 Vue.config.productionTip = false
 

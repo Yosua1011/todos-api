@@ -11,7 +11,7 @@ const isLogin = (req,res,next) => {
             if (err) {
                 res.send(err)
             } else {
-                req._id = decoded._id
+                req.headers.auth = decoded
                 next()
             }
         })
@@ -21,40 +21,39 @@ const isLogin = (req,res,next) => {
 }
 
 const isUserAuth = (req,res,next) => {
-    if(req._id == req.params.id) {
+    if(req._id == req.headers._id) {
         next()
     } else {
         res.send('Kamu tidak berhak mengakses data orang lain')
     }
 }
 
-const isUserAuthTodo = (req,res,next) => {
-    if(req._id == req.params.userId) {
-        next()
-    } else {
-        res.send('Kamu tidak berhak mengakses data orang lain')
-    }
-}
-
-const isAuthtoEditDelete = (req,res,next) => {
-    Todo.findById({
-        _id: req.params.todosId
-    })
-    .then(todo => {
-        if(todo.userId == req._id) {
-            next()
-        } else {
-            res.send('Access Denied: You are not authorized!')
-        }
-    })
-    .catch(err => res.send(err))
-}
+// const isUserAuthTodo = (req,res,next) => {
+//     if(req._id == req.headers._id) {
+//         next()
+//     } else {
+//         res.send('Kamu tidak berhak mengakses data orang lain')
+//     }
+// }
+//
+// const isAuthtoEditDelete = (req,res,next) => {
+//     Todo.findById({
+//         _id: req.params.todosId
+//     })
+//     .then(todo => {
+//       console.log(`ini todo ${todo}`)
+//         if(todo.userId == req._id) {
+//             next()
+//         } else {
+//             res.send('Access Denied: You are not authorized!')
+//         }
+//     })
+//     .catch(err => res.send(err))
+// }
 
 
 
 module.exports = {
-    isLogin,
-    isUserAuth,
-    isUserAuthTodo,
-    isAuthtoEditDelete
+  isLogin,
+  isUserAuth
 }

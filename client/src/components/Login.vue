@@ -49,8 +49,8 @@ export default {
         localStorage.setItem('token', loginResponse.data.token)
         localStorage.setItem('name', loginResponse.data.name)
         localStorage.setItem('userid', loginResponse.data.userid)
-        self.$router.push('/todo')
-        console.log('==========datanya', loginResponse.data)
+        self.$router.push('/main')
+        console.log('==========datanya', loginResponse)
       })
       .catch(err => {
         console.log(err)
@@ -63,7 +63,7 @@ export default {
     },
     checkLogin () {
       if (localStorage.fbaccesstoken) {
-        this.$router.push('/todo')
+        this.$router.push('/main')
       }
     }
   },

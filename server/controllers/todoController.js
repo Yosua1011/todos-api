@@ -21,30 +21,33 @@ module.exports = {
             title: req.body.title,
             date: req.body.date,
             description: req.body.description,
-            check: false,
+            check: 'undone',
             userId: user._id
         })
         .then(result => res.send(result))
         .catch(err => res.send(err))
     },
 
-    checkTodos: (req, res) => {
+    updateTodos: (req, res) => {
+        // Todo.findOne({
+        //   _id: req.params.todosId
+        // })
+        // .then(data => {
+        //   Todo.updateOne({_id: req.params.todosId}, {
+        //     action: req.body.action || data.action,
+        //     title: req.body.title || data.title,
+        //     date: req.body.date || data.date,
+        //     description: req.body.description || data.description,
+        //     check: req.body.check
+        //   })
+        // })
+        // .catch(err => res.send(err))
         Todo.update({_id: req.params.todosId}, {
             check: req.body.check
         })
         .then(res.send(`Todos updated`))
         .catch(err => res.send(err))
-    },
 
-    updateTodos: (req, res) => {
-        Todo.update({_id: req.params.todosId}, {
-            action: req.body.action,
-            title: req.body.title,
-            date: req.body.date,
-            description: req.body.description
-        })
-        .then(res.send(`Todos updated`))
-        .catch(err => res.send(err))
     },
 
     deleteTodos: (req, res) => {

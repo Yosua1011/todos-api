@@ -4,14 +4,12 @@ const todoController = require('../controllers/todoController');
 var authHelper = require('../helpers/authHelper')
 
 /* GET users listing. */
-router.get('/:userId', authHelper.isLogin, authHelper.isUserAuthTodo, todoController.getAllToDos);
+router.get('/', authHelper.isLogin, authHelper.isUserAuth, todoController.getAllToDos);
 
-router.post('/', authHelper.isLogin, todoController.addToDos)
+router.post('/', authHelper.isLogin, authHelper.isUserAuth, todoController.addToDos)
 
-router.put('/check/:todosId', authHelper.isLogin, authHelper.isAuthtoEditDelete, todoController.checkTodos)
+router.delete('/:todosId', authHelper.isLogin, authHelper.isUserAuth, todoController.deleteTodos)
 
-router.delete('/:todosId', authHelper.isLogin, authHelper.isAuthtoEditDelete, todoController.deleteTodos)
-
-router.put('/:todosId', authHelper.isLogin, authHelper.isAuthtoEditDelete, todoController.updateTodos)
+router.put('/:todosId', authHelper.isLogin, authHelper.isUserAuth, todoController.updateTodos)
 
 module.exports = router;
