@@ -3,7 +3,7 @@
   <!-- <body style="background: linear-gradient(-45deg,#23A6D5, #23D5AB) !important;height:1024px;"> -->
     <!-- <button class="btn" style="margin-top: 25%;margin-left:45%;">Login</button> -->
   <!-- </body> -->
-
+  <h1>Todo's App by Yosua</h1>
   <div style="background: linear-gradient(-45deg,#23A6D5, #23D5AB) !important;height:1000px;width:100%;"  >
   <center><a href="#" class="brand-logo center"></a></center><center><fb-signin-button
     :params="fbSignInParams"
@@ -86,5 +86,9 @@ export default {
     border-radius: 3px;
     background-color: #4267b2;
     color: #fff;
+    margin-top: 200px;
+  }
+  h1 {
+    text-align: center;
   }
 </style>

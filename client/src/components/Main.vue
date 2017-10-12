@@ -4,18 +4,17 @@
         <div class="row">
           <div class="col l6 s12">
              <a href="#"><img src="../assets/logo.png" alt="logo" style="width:130px;"></a>
-             <p>Welcome Home: <b>{{ myname }}</b></p>
+             <h5>Welcome Home: <b>{{ myname }}</b></h5>
              <div class="row">
               <form class="col s12">
                 <div class="row">
                   <div class="input-field col s12">
-                    <textarea v-model="postdata.action" id="textarea1" class="materialize-textarea"></textarea>
-                    <textarea v-model="postdata.title" id="textarea1" class="materialize-textarea"></textarea>
-                    <textarea v-model="postdata.date" id="textarea1" class="materialize-textarea"></textarea>
-                    <textarea v-model="postdata.description" id="textarea1" class="materialize-textarea"></textarea>
-                    <label for="textarea1" style="color: black">Textarea</label>
+                    <textarea v-model="postdata.action" id="textarea1" class="materialize-textarea" placeholder="type your action (Sport, Work, Recreation, or Other)"></textarea>
+                    <textarea v-model="postdata.title" id="textarea1" class="materialize-textarea" placeholder="type your title"></textarea>
+                    <textarea v-model="postdata.date" id="textarea1" class="materialize-textarea" placeholder="type your due date (yyyy-mm-dd)"></textarea>
+                    <textarea v-model="postdata.description" id="textarea1" class="materialize-textarea" placeholder="type your description of this action"></textarea>
                   </div>
-                  <button @click.prevent="kirimdata()" type="button">Submit</button>
+                  <button @click.prevent="kirimdata()" type="button">Add to Todo List</button>
                 </div>
               </form>
             </div>
@@ -32,7 +31,7 @@
              </ul>
           </div>
         </div>
-        <p><a style="cursor:pointer" type="cursor" @click="doLogout">Logout</a></p>
+        <button><a style="cursor:pointer" type="cursor" @click="doLogout">Logout</a></button>
       </div>
       <div class="footer-copyright">
         <div class="container">
@@ -75,23 +74,29 @@
       },
       kirimdata () {
         var self = this
-        axios.post(`http://localhost:3000/todos/`, {
-          action: self.postdata.action,
-          title: self.postdata.title,
-          date: self.postdata.date,
-          description: self.postdata.description
-        }, {
-          headers: {
-            token: localStorage.getItem('token')
-          }
-        })
-        .then(response => {
-          console.log(`ini response.data ${response.data}`)
-          self.todoslist.push(response.data)
-        })
-        .catch(err => {
-          console.log(err)
-        })
+        console.log(this.postdata)
+        if (this.postdata.action !== '' && this.postdata.title !== '' && this.postdata.date !== '' && this.postdata.description !== '') {
+          axios.post(`http://localhost:3000/todos/`, {
+            action: self.postdata.action,
+            title: self.postdata.title,
+            date: self.postdata.date,
+            description: self.postdata.description
+          }, {
+            headers: {
+              token: localStorage.getItem('token')
+            }
+          })
+          .then(response => {
+            console.log(`ini response.data ${response.data}`)
+            self.todoslist.push(response.data)
+            this.clearForm()
+          })
+          .catch(err => {
+            console.log(err)
+          })
+        } else {
+          this.showAlert(`Please fill all field!`)
+        }
       },
       editdata (data, index) {
         var status = ''
@@ -111,7 +116,7 @@
         .then(response => {
           console.log(self.todoslist[index])
           self.todoslist[index].check = status
-          this.showAlert(index)
+          this.showAlert(`You just ${this.todoslist[index].check} this todo item`)
         })
         .catch(err => {
           console.log(err)
@@ -131,9 +136,15 @@
           console.log(err)
         })
       },
-      showAlert (index) {
+      showAlert (message) {
         // Use sweetalret2
-        this.$swal(`You just ${this.todoslist[index].check}`)
+        this.$swal(message)
+      },
+      clearForm () {
+        this.postdata.action = ''
+        this.postdata.title = ''
+        this.postdata.date = ''
+        this.postdata.description = ''
       }
     },
     created () {
