@@ -19,11 +19,11 @@
               </form>
             </div>
              <ul v-for="(todos, index) in todoslist" class="left collection" :key="todos._id" style="padding-right:30px; color:black;">
-                <li class="collection-item">{{ todos.action }}</li>
-                <li class="collection-item">{{ todos.title }}</li>
-                <li class="collection-item">{{ todos.date }}</li>
-                <li class="collection-item">{{ todos.check }}</li>
-                <li class="collection-item">{{ todos.description }}</li>
+                <li class="collection-item">Action: {{ todos.action }}</li>
+                <li class="collection-item">Title: {{ todos.title }}</li>
+                <li class="collection-item">Due Date: {{ todos.date }}</li>
+                <li class="collection-item">Status: {{ todos.check }}</li>
+                <li class="collection-item">Description: {{ todos.description }}</li>
                 <li>
                   <button type="button" class="filled-in" id="filled-in-box test5" checked="checked" @click="editdata(todos, index)">Check</button>
                 </li>
